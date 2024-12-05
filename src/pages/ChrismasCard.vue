@@ -7,7 +7,7 @@ import {
   OrbitControls,
   DRACOLoader,
   RGBELoader,
-  Water2,
+  Water2
 } from 'three/examples/jsm/Addons.js';
 import { ref, onMounted } from 'vue';
 // 初始化场景
@@ -16,7 +16,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000,
+  1000
 );
 camera.position.set(-3.23, 2.98, 4.06);
 // 更新投影矩阵 修改宽高比之后需要做的  因为没有修改宽高比 所以应该不需要?
@@ -123,7 +123,7 @@ for (let i = 0; i < 3; i++) {
   sphere.position.set(
     radius * Math.cos(i * 2 * Math.PI / 3),
     Math.cos(i * 2 * Math.PI / 3),
-    radius * Math.sin(i * 2 * Math.PI / 3),
+    radius * Math.sin(i * 2 * Math.PI / 3)
   );
   pointLightArr.push(sphere);
   sphere.add(pointLight);
@@ -146,7 +146,7 @@ gsap.to(options, {
     pointLightArr.forEach((item, index) => {
       item.position.y = Math.cos(index * 2 * Math.PI / 3 + options.angle * 5);
     });
-  }
+  },
 });
 
 // 创建满天的星星
@@ -159,7 +159,7 @@ const starsInstance = new THREE.InstancedMesh(
     emissiveIntensity: 10,
   }),
   // sphereMaterial,
-  100,
+  100
 );
 // 随机处理100个球的位置 且记录位置
 const starsArr: { start: THREE.Vector3, end: THREE.Vector3 }[] = [];
@@ -213,7 +213,7 @@ function makeHeart() {
         starsInstance.setMatrixAt(i, matrix);
       }
       starsInstance.instanceMatrix.needsUpdate = true;
-    }
+    },
   });
 }
 
@@ -234,7 +234,7 @@ function restoreHeart() {
         starsInstance.setMatrixAt(i, matrix);
       }
       starsInstance.instanceMatrix.needsUpdate = true;
-    }
+    },
   });
 }
 
@@ -253,7 +253,7 @@ let scenes = [{
     // 切换位置
     translateCamera(
       new THREE.Vector3(-3.23, 3, 4.06),
-      new THREE.Vector3(-8, 2, 0),
+      new THREE.Vector3(-8, 2, 0)
     );
     if (isHeart) {
       restoreHeart();
@@ -266,7 +266,7 @@ let scenes = [{
     // 切换位置
     translateCamera(
       new THREE.Vector3(7, 0, 23),
-      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0)
     );
     if (isHeart) {
       restoreHeart();
@@ -279,7 +279,7 @@ let scenes = [{
     // 切换位置
     translateCamera(
       new THREE.Vector3(10, 3, 0),
-      new THREE.Vector3(5, 2, 0),
+      new THREE.Vector3(5, 2, 0)
     );
     if (isHeart) {
       restoreHeart();
@@ -292,7 +292,7 @@ let scenes = [{
     // 切换位置
     translateCamera(
       new THREE.Vector3(7, 0, 23),
-      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0)
     );
     if (!isHeart) {
       makeHeart();
@@ -305,7 +305,7 @@ let scenes = [{
     // 切换位置
     translateCamera(
       new THREE.Vector3(-20, 1.3, 6.6),
-      new THREE.Vector3(5, 2, 0),
+      new THREE.Vector3(5, 2, 0)
     );
     if (isHeart) {
       restoreHeart();

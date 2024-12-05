@@ -18,7 +18,7 @@ const meshMap: Record<string, MeshMapValue> = {
       metalness: 1,
       // 粗糙程度
       roughness: 0.1,
-    })
+    }),
   },
   wheels2: {
     mesh: null,
@@ -28,7 +28,7 @@ const meshMap: Record<string, MeshMapValue> = {
       metalness: 1,
       // 粗糙程度
       roughness: 0.1,
-    })
+    }),
   },
   wheels3: {
     mesh: null,
@@ -38,7 +38,7 @@ const meshMap: Record<string, MeshMapValue> = {
       metalness: 1,
       // 粗糙程度
       roughness: 0.1,
-    })
+    }),
   },
   wheels4: {
     mesh: null,
@@ -48,7 +48,7 @@ const meshMap: Record<string, MeshMapValue> = {
       metalness: 1,
       // 粗糙程度
       roughness: 0.1,
-    })
+    }),
   },
   carBody: {
     mesh: null,
@@ -62,7 +62,7 @@ const meshMap: Record<string, MeshMapValue> = {
       clearcoat: 1,
       // 清漆粗糙度 默认是0
       clearcoatRoughness: 0,
-    })
+    }),
   },
   carFront: {
     mesh: null,
@@ -76,7 +76,7 @@ const meshMap: Record<string, MeshMapValue> = {
       clearcoat: 1,
       // 清漆粗糙度 默认是0
       clearcoatRoughness: 0,
-    })
+    }),
   },
   carHood: {
     mesh: null,
@@ -90,7 +90,7 @@ const meshMap: Record<string, MeshMapValue> = {
       clearcoat: 1,
       // 清漆粗糙度 默认是0
       clearcoatRoughness: 0,
-    })
+    }),
   },
   carGlass: {
     mesh: null,
@@ -101,7 +101,7 @@ const meshMap: Record<string, MeshMapValue> = {
       transparent: true,
       metalness: 0,
       roughness: 0.1,
-    })
+    }),
   },
 };
 
@@ -150,7 +150,7 @@ onMounted(() => {
   // 添加网格地面
   const gridHelper = new THREE.GridHelper(
     10,
-    10,
+    10
   );
 
   gridHelper.material.opacity = 0.2;
@@ -209,7 +209,7 @@ onMounted(() => {
     [5, 10, 0, 0.3],
     [0, 10, 5, 0.3],
     [0, 10, -5, 0.3],
-    [-5, 10, 0, 0.3],
+    [-5, 10, 0, 0.3]
   ];
   lightConfig.forEach(config => {
     const light = new THREE.DirectionalLight(0xffffff, config[3]);

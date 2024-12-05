@@ -18,8 +18,8 @@ let controls: OrbitControls|null = null;
 const cubeGeomitry = new THREE.BoxGeometry(10, 10, 10);
 const textLoader = new THREE.CubeTextureLoader();
 // 经弹幕提示 换了专用loader
-const textures = textLoader.load(['4_l', '4_r','4_d',  '4_u', '4_f', '4_b' ].map(name => `./imgs/living/${name}.jpg`));
-const cube = new THREE.Mesh(cubeGeomitry, new THREE.MeshBasicMaterial({ envMap: textures }));
+const textures = textLoader.load(['4_l', '4_r', '4_d',  '4_u', '4_f', '4_b' ].map(name => `./imgs/living/${name}.jpg`));
+const cube = new THREE.Mesh(cubeGeomitry, new THREE.MeshBasicMaterial({ envMap: textures, }));
 cube.geometry.scale(1, 1, -1);
 scene.add(cube);
 

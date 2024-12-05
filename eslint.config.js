@@ -6,7 +6,7 @@ import pluginVue from "eslint-plugin-vue";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  { files: ["**/*.{js,mjs,cjs,ts,vue}"] },
+  { files: ["**/*.{js,mjs,cjs,ts}"] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -16,7 +16,18 @@ export default [
     languageOptions: { parserOptions: { parser: tseslint.parser } },
     rules: {
       'vue/multi-word-component-names': 0,
-      semi: ["error", "always"],
+      "semi": ["error", "always"],
+      "comma-dangle": ["error", {
+        "arrays": "never",
+        "objects": "always",
+        "imports": "never",
+        "exports": "never",
+        "functions": "never"
+      }],
+      "comma-spacing": ["error", {
+        before: false,
+        after: true,
+      }]
     }
   },
 ];
