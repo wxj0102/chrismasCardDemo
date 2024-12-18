@@ -41,35 +41,15 @@ dracoLoader.setDecoderPath('./draco/');
 const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader);
 gltfLoader.load('./model/bmw01.glb', (gltf) => {
-  console.log(gltf);
   const model = gltf.scene;
   // scene.add(model);
   // 给模型添加到物理世界
   // 由于小车是由多个mesh组成的 所以需要把他们合并
   const groupGeometry = mergeGroupGeometries(model);
-  console.log(groupGeometry);
   const groupMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, });
-  const positionArray: number[] = [];
-  const indexArray: number[] = [];
-  const planeGeometry = new THREE.BoxGeometry(5, 5, 5);
-  for (let i = 0; i < planeGeometry.attributes.position.array.length; i++) {
-    positionArray.push(planeGeometry.attributes.position.array[i]);
-  }
-  // for (let i = 0; i < (planeGeometry.getIndex()?.array.length || 0); i++) {
-  //   positionArray.push(planeGeometry.getIndex()!.array[i]);
-  // }
-  if (planeGeometry.index) {
-    for (let i = 0; i < planeGeometry?.index?.array?.length; i++) {
-      indexArray.push(planeGeometry.index.array[i]);
-    }
-  }
-  console.log(positionArray);
-  console.log(indexArray);
   const trimeshShape = new CANNON.Trimesh(
-    positionArray,
-    indexArray
-    // planeGeometry.attributes.position.array,
-    // planeGeometry.index?.array
+    Array.from(groupGeometry.attributes.position.array),
+    Array.from(groupGeometry.getIndex()?.array || [])
   );
 
   const trimeshBody = new CANNON.Body({
@@ -85,13 +65,14 @@ gltfLoader.load('./model/bmw01.glb', (gltf) => {
 
   world.addBody(trimeshBody);
   phyBodies.push(trimeshBody);
-  console.log('-----------');
-  console.log(trimeshBody);
-  console.log(boxBody2);
+  console.log('-----------111');
 
-  const mesh = new THREE.Mesh(planeGeometry, groupMaterial);
+  const mesh = new THREE.Mesh(groupGeometry, groupMaterial);
   scene.add(mesh);
   meshes.push(mesh);
+
+console.log(phyBodies);
+console.log(meshes);
 });
 
 // 物理世界创建一个平面 注意box 是half的
@@ -192,7 +173,7 @@ const cylinderBody = new CANNON.Body({
 //   console.log('进入休眠', e);
 // });
 // 设置圆柱体的初始速度
-cylinderBody.velocity.set(-10, 0, 0);
+// cylinderBody.velocity.set(-10, 0, 0);
 // 添加到物理世界
 world.addBody(boxBody1);
 phyBodies.push(boxBody1);
@@ -275,12 +256,8 @@ onMounted(() => {
 
 <style scoped>
 .container {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: red;
 }
 </style>

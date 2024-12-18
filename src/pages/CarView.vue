@@ -259,8 +259,22 @@ function selectRoughness(value: number) {
 </template>
 
 <style scoped>
-.home-content {
+canvas {
+  width: 100%;
+  height: 100%;
   position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.home {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.home-content {
+  position: absolute;
   top: 0;
   right: 20px;
 }

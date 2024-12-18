@@ -365,9 +365,14 @@ function translateCamera(position: THREE.Vector3, target: THREE.Vector3) {
 </template>
 
 <style scoped>
+
 .container {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .scenes {
@@ -377,11 +382,13 @@ function translateCamera(position: THREE.Vector3, target: THREE.Vector3) {
   z-index: 10;
   pointer-events: none;
   transition: all 1s;
+  width: 100%;
+  height: 100%;
 }
 
 .scenes-item {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 .scenes-item>h1 {
