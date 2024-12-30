@@ -34,6 +34,12 @@ export default class WorldObjectGroup {
     }
   }
 
+  public ready () {
+    return new Promise((resolve) => {
+      resolve(true)
+    })
+  }
+
   public getMesh() {
     return this._threeInstanceMesh
   }

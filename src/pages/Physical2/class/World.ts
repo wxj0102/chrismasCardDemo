@@ -34,25 +34,41 @@ export default class World {
   // 添加一个object
   add(object: WorldObject): void;
   add(item: WorldObject|WorldObjectGroup): void {
-    if (item instanceof WorldObjectGroup){
-      // group 只需要添加一次到three
-      // 需要反复添加到physical
-      this.threeScene.getScene().add(item.getMesh())
-      item.getObjectList().forEach(object => {
-        this.physicalScene.physicalWorld.addRigidBody(object.getBody())
-        this.objectList.push(object)
-      })
-    } else if (item instanceof WorldObject) {
-      const mesh = item.getMesh()
-      const body = item.getBody()
-      this.threeScene.getScene().add(mesh)
-      this.physicalScene.physicalWorld.addRigidBody(body)
-      this.objectList.push(item)
-    }
+    item.ready().then(() => {
+      if (item instanceof WorldObjectGroup){
+        // group 只需要添加一次到three
+        // 需要反复添加到physical
+        this.threeScene.getScene().add(item.getMesh())
+        item.getObjectList().forEach(object => {
+          this.physicalScene.physicalWorld.addRigidBody(object.getBody())
+          this.objectList.push(object)
+        })
+      } else if (item instanceof WorldObject) {
+        const mesh = item.getMesh()
+        const body = item.getBody()
+        this.threeScene.getScene().add(mesh)
+        console.log(this.threeScene.getScene())
+        this.physicalScene.physicalWorld.addRigidBody(body)
+        this.objectList.push(item)
+      }
+    })
+  }
+
+  renderCallbackList: ((dT: number) => void)[] = []
+
+  addRenderCallback (callback: (dt: number) => void) {
+    this.renderCallbackList.push(callback)
+  }
+
+  removeRenderCallback (callback: (dt: number) => void) {
+    this.renderCallbackList = this.renderCallbackList.filter(v => v !== callback)
   }
 
   render() {
     const d = this.clock.getDelta()
+    this.renderCallbackList.forEach(callback => {
+      callback(d)
+    })
     this.threeScene.render(this.objectList)
     this.physicalScene.update(d)
     requestAnimationFrame(() => {

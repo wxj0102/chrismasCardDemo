@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { BufferGeometryUtils } from 'three/addons'
+import { BufferGeometryUtils, GLTFLoader, DRACOLoader } from 'three/addons'
 
 /**
  * AmmoNamespace的type.d.ts文件 ammo包本身不会生成 需要自己去通过第三方工具将ammo库中的ammo.idl转为ammo.d.ts
@@ -23,7 +23,7 @@ export function mergeGroupGeometries(group: THREE.Group): THREE.BufferGeometry {
       geometries.push(mesh.geometry)
     }
   })
-  return BufferGeometryUtils.mergeGeometries(geometries, false)
+  return BufferGeometryUtils.mergeGeometries(geometries, true)
 }
 
 export let Ammo: typeof AmmoNamespace
@@ -38,4 +38,91 @@ export function loadAmmo(): Promise<typeof AmmoNamespace> {
       })
     }
   })
+}
+
+export function loadGltf(path: string, isDraco = true): Promise<any> {
+  const gltfLoader = new GLTFLoader();
+  if (isDraco) {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('./draco/');
+    gltfLoader.setDRACOLoader(dracoLoader);
+  }
+  return new Promise((resolve) => {
+    gltfLoader.load(path, (gltf) => {
+      resolve(gltf)
+    })
+  })
+}
+
+export function getAmmoShapeByThreeGeometry(geometry: THREE.BufferGeometry): AmmoNamespace.btConcaveShape {
+  // const vertices = geometry.getAttribute('position').array;
+  // const indices = geometry?.getIndex()?.array || [];
+  // const ammoVertices = new Float32Array(vertices);
+  // const ammoIndices = new Uint32Array(indices);
+
+  // const triangleMesh = new Ammo.btTriangleMesh();
+  // for (let i = 0; i < ammoIndices.length; i += 3) {
+  //   const index1 = ammoIndices[i];
+  //   const index2 = ammoIndices[i + 1];
+  //   const index3 = ammoIndices[i + 2];
+  //   const vertex1 = new Ammo.btVector3(
+  //     ammoVertices[index1 * 3],
+  //     ammoVertices[index1 * 3 + 1],
+  //     ammoVertices[index1 * 3 + 2]
+  //   );
+  //   const vertex2 = new Ammo.btVector3(
+  //     ammoVertices[index2 * 3],
+  //     ammoVertices[index2 * 3 + 1],
+  //     ammoVertices[index2 * 3 + 2]
+  //   );
+  //   const vertex3 = new Ammo.btVector3(
+  //     ammoVertices[index3 * 3],
+  //     ammoVertices[index3 * 3 + 1],
+  //     ammoVertices[index3 * 3 + 2]
+  //   );
+  //   triangleMesh.addTriangle(vertex1, vertex2, vertex3);
+  // }
+
+  // const meshShape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
+
+  let triangle_mesh = new Ammo.btTriangleMesh()
+  //declare triangles position vectors
+  let vectA = new Ammo.btVector3(0, 0, 0)
+  let vectB = new Ammo.btVector3(0, 0, 0)
+  let vectC = new Ammo.btVector3(0, 0, 0)
+
+  //retrieve vertices positions from object
+  let verticesPos = geometry.getAttribute('position').array
+  let triangles = []
+  for (let i = 0; i < verticesPos.length; i += 3) {
+    triangles.push({
+      x: verticesPos[i],
+      y: verticesPos[i + 1],
+      z: verticesPos[i + 2]
+    })
+  }
+
+  for (let i = 0; i < triangles.length - 3; i += 3) {
+
+    vectA.setX(triangles[i].x)
+    vectA.setY(triangles[i].y)
+    vectA.setZ(triangles[i].z)
+
+    vectB.setX(triangles[i + 1].x)
+    vectB.setY(triangles[i + 1].y)
+    vectB.setZ(triangles[i + 1].z)
+
+    vectC.setX(triangles[i + 2].x)
+    vectC.setY(triangles[i + 2].y)
+    vectC.setZ(triangles[i + 2].z)
+
+    triangle_mesh.addTriangle(vectA, vectB, vectC, true)
+  }
+
+  Ammo.destroy(vectA)
+  Ammo.destroy(vectB)
+  Ammo.destroy(vectC)
+
+  let meshShape = new Ammo.btConvexTriangleMeshShape(triangle_mesh, true)
+  return meshShape
 }

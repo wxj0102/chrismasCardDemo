@@ -23,6 +23,9 @@ import { RouterLink, RouterView } from 'vue-router';
       <div class="router-item">
         <RouterLink to="/physical3">ammo 大量的小方块掉落</RouterLink>
       </div>
+      <div class="router-item">
+        <RouterLink to="/physical4">ammo 根据gltf创建刚体</RouterLink>
+      </div>
     </div>
     <div class="view">
       <RouterView></RouterView>

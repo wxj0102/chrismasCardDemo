@@ -40,6 +40,16 @@ export default class WorldObject {
     return this._quaternion
   }
 
+  public getBtTransform() {
+    return this._btTransform
+  }
+
+  public ready() {
+    return new Promise((resolve) => {
+      resolve(true)
+    })
+  }
+
   protected createBody(shape: AmmoNamespace.btCollisionShape) {
     this._btShape = shape
     // 其实将是物体的变换信息 平移旋转缩放

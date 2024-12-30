@@ -43,13 +43,25 @@ export default class WorldObjectGroupItem extends WorldObject {
     this._position = pos
   }
 
+  public override setQuaternion(quat: [x: number, y: number, z: number, w: number]): void {
+    this._btTransform.setRotation(new Ammo.btQuaternion(...quat))
+    this._btMotionState.setWorldTransform(this._btTransform)
+    this.getBody().setWorldTransform(this._btTransform)
+    // 这里需要改
+
+    const matrix = new THREE.Matrix4();
+    matrix.makeRotationFromQuaternion(new THREE.Quaternion(...quat));
+    this.getMesh().setMatrixAt(this._index, matrix);
+    this.getMesh().instanceMatrix.needsUpdate = true;
+    this._quaternion = quat
+  }
+
   public override updateMeshByBody() {
     const motionState = this._body.getMotionState()
     motionState.getWorldTransform(this._btTransform)
     const pos = this._btTransform.getOrigin()
     const rotation = this._btTransform.getRotation()
 
-    // 以下内容有问题
     const matrixPos = new THREE.Matrix4();
     const matrixRotation = new THREE.Matrix4();
     // 位置

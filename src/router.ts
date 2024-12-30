@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ChrismasCard from './pages/ChrismasCard.vue';
 import CarView from './pages/CarView.vue';
-import HouseView from './pages/House-view.vue';
-import Physical from './pages/Physical.vue';
+import HouseView from './pages/house-view.vue';
+import Physical from './pages/physical.vue';
 import Physical2 from './pages/Physical2/Physical2.vue';
 import Physical3 from './pages/Physical2/Physical3.vue';
+import Physical4 from './pages/Physical2/Physical4.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,6 +27,9 @@ const router = createRouter({
   }, {
     path: '/physical3',
     component: Physical3,
+  }, {
+    path: '/Physical4',
+    component: Physical4,
   }],
 });
 
